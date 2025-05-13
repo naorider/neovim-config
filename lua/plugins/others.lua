@@ -150,4 +150,5 @@ return {
   },
   -- Preview quickfix list
   { 'kevinhwang91/nvim-bqf' },
+  "stevearc/dressing.nvim"
 }
