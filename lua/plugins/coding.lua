@@ -115,8 +115,8 @@ return {
           local client = vim.lsp.get_client_by_id(ev.data.client_id)
           if client.name == 'ts_ls' then
             -- Disable tsserver formatting because prettier is used
-            client.capabilities.documentFormattingProvider = false
-            client.capabilities.documentRangeFormattingProvider = false
+            client.server_capabilities.documentFormattingProvider = false
+            client.server_capabilities.documentRangeFormattingProvider = false
 
             vim.api.nvim_buf_create_user_command(ev.buf, 'OrganizeImports', function()
               client:exec_cmd({
