@@ -12,7 +12,7 @@ A personal Neovim configuration focused on general programming, with special emp
 ## 🚀 Quick Start
 
 1. **Prerequisites**
-   - Neovim (latest, 0.9+ recommended)
+   - Neovim (latest, 0.11+ recommended)
    - Linux environment
 
 2. **Install**
