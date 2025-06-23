@@ -150,5 +150,12 @@ return {
   },
   -- Preview quickfix list
   { 'kevinhwang91/nvim-bqf' },
-  "stevearc/dressing.nvim"
+  -- "stevearc/dressing.nvim"
+  {
+    "folke/snacks.nvim",
+    ---@type snacks.Config
+    opts = {
+      input = { enabled = true }
+    }
+  }
 }
