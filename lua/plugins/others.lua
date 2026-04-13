@@ -53,7 +53,7 @@ return {
     config = true
   },
   -- Colorlize color code (e.g #00BBCC)
-  { 'norcalli/nvim-colorizer.lua', config = function() require('colorizer').setup() end },
+  { 'brenoprata10/nvim-highlight-colors', config = function() require('nvim-highlight-colors').setup({}) end },
   -- Easymotion
   {
     'phaazon/hop.nvim',
@@ -139,7 +139,7 @@ return {
   {
     'nvim-tree/nvim-tree.lua',
     config = function()
-      require('nvim-tree').setup()
+      require('nvim-tree').setup({ sort = { sorter = "case_sensitive" } })
     end,
     init = function()
       vim.keymap.set('n',
