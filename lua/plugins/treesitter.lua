@@ -1,12 +1,18 @@
 return {
   {
-    'nvim-treesitter/nvim-treesitter',
-    build = ':TSUpdate',
+    "nvim-treesitter/nvim-treesitter",
+    branch = "master", -- Use the legacy version.
+    build = ":TSUpdate",
     init = function()
-      require 'nvim-treesitter.configs'.setup {
+      require("nvim-treesitter.configs").setup({
         -- A list of parser names, or "all" (the four listed parsers should always be installed)
         ensure_installed = {
-          "lua", "vim", "html", "javascript", "typescript", "tsx",
+          "lua",
+          "vim",
+          "html",
+          "javascript",
+          "typescript",
+          "tsx",
         },
 
         -- Install parsers synchronously (only applied to `ensure_installed`)
@@ -22,13 +28,13 @@ return {
         highlight = { enable = true },
         -- Disable the experimental feature
         -- indent = { enable = true }
-      }
-    end
+      })
+    end,
   },
   -- Auto close/rename tags
   {
-    'windwp/nvim-ts-autotag',
-    dependencies = { 'nvim-treesitter/nvim-treesitter' },
-    opts = true
+    "windwp/nvim-ts-autotag",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    opts = true,
   },
 }

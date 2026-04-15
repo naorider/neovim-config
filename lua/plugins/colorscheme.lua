@@ -1,5 +1,5 @@
 return {
-  { 'morhetz/gruvbox' },
+  { "morhetz/gruvbox" },
   {
     "folke/tokyonight.nvim",
     lazy = false,
@@ -9,6 +9,8 @@ return {
         colors.border = colors.blue
       end,
     },
-    init = function() vim.cmd "colorscheme tokyonight" end
+    init = function()
+      vim.cmd("colorscheme tokyonight")
+    end,
   },
 }

@@ -1,5 +1,5 @@
 return {
-  'tpope/vim-fugitive',
-  'airblade/vim-gitgutter',
-  'rhysd/committia.vim',
+  "tpope/vim-fugitive",
+  "airblade/vim-gitgutter",
+  "rhysd/committia.vim",
 }
