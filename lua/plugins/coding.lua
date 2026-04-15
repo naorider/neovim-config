@@ -90,7 +90,8 @@ return {
           vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, { silent = true })
           vim.keymap.set("n", "<leader>ac", vim.lsp.buf.code_action, { silent = true })
           vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { silent = true })
-          vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format, { silent = true })
+          -- Use conform for formatting
+          -- vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format, { silent = true })
 
           local client = vim.lsp.get_client_by_id(ev.data.client_id)
           if client.name == "ts_ls" then
@@ -198,6 +199,10 @@ return {
           lsp_format = "fallback",
         },
       })
+      -- Format the selected range
+      vim.keymap.set({ "n", "x" }, "<leader>fm", function()
+        require("conform").format({ async = true })
+      end)
     end,
   },
 }
