@@ -205,4 +205,5 @@ return {
       end)
     end,
   },
+  "mfussenegger/nvim-jdtls",
 }
