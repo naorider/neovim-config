@@ -5,6 +5,7 @@ return {
     build = ":TSUpdate",
     config = function()
       require("nvim-treesitter").install({
+        "diff",
         "lua",
         "vim",
         "html",
