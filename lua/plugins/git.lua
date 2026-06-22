@@ -1,5 +1,11 @@
 return {
   "tpope/vim-fugitive",
-  "airblade/vim-gitgutter",
+
+  {
+    "lewis6991/gitsigns.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    opts = {},
+  },
+
   "rhysd/committia.vim",
 }
