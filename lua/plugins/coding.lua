@@ -1,101 +1,56 @@
 return {
+  -- LSP
   {
     "neovim/nvim-lspconfig",
-    init = function()
+    dependencies = {
+      "saghen/blink.cmp",
+    },
+    config = function()
+      local capabilities = require("blink.cmp").get_lsp_capabilities()
+
+      vim.lsp.config("*", {
+        capabilities = capabilities,
+      })
+
       vim.lsp.config("lua_ls", {
         settings = {
           Lua = {
-            diagnostics = { globals = { "vim" } },
+            diagnostics = {
+              globals = { "vim" },
+            },
           },
         },
       })
-    end,
-  },
-  "hrsh7th/cmp-nvim-lsp",
-  "hrsh7th/cmp-buffer",
-  "hrsh7th/cmp-path",
-  "hrsh7th/cmp-cmdline",
-  {
-    "hrsh7th/nvim-cmp",
-    config = function()
-      local cmp = require("cmp")
 
-      cmp.setup({
-        snippet = {
-          expand = function(args)
-            require("luasnip").lsp_expand(args.body)
-          end,
-        },
-        window = {
-          -- completion = cmp.config.window.bordered(),
-          -- documentation = cmp.config.window.bordered(),
-        },
-        mapping = cmp.mapping.preset.insert({
-          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-          ["<C-f>"] = cmp.mapping.scroll_docs(4),
-          ["<C-Space>"] = cmp.mapping.complete(),
-          ["<C-e>"] = cmp.mapping.abort(),
-          ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-        }),
-        sources = cmp.config.sources({
-          { name = "nvim_lsp" },
-          { name = "luasnip" },
-        }, {
-          { name = "buffer" },
-        }),
+      vim.lsp.config("ts_ls", {
+        -- ts_ls 固有設定が必要になったらここに書く
       })
 
-      -- Set configuration for specific filetype.
-      cmp.setup.filetype("gitcommit", {
-        sources = cmp.config.sources({
-          { name = "git" }, -- You can specify the `git` source if [you were installed it](https://github.com/petertriho/cmp-git).
-        }, {
-          { name = "buffer" },
-        }),
+      vim.lsp.enable({
+        "lua_ls",
+        "ts_ls",
+        "eslint",
       })
-
-      -- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
-      cmp.setup.cmdline({ "/", "?" }, {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = {
-          { name = "buffer" },
-        },
-      })
-
-      -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-      cmp.setup.cmdline(":", {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = cmp.config.sources({
-          { name = "path" },
-        }, {
-          { name = "cmdline" },
-        }),
-      })
-
-      -- Set up lspconfig.
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-      vim.lsp.config("ts_ls", { capabilities = capabilities })
-      vim.lsp.enable("ts_ls")
-      vim.lsp.enable("eslint")
 
       vim.api.nvim_create_autocmd("LspAttach", {
-        group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+        group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
         callback = function(ev)
-          vim.keymap.set("n", "<leader>ac", vim.lsp.buf.code_action, { silent = true })
-          vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { silent = true })
-          vim.keymap.set("n", "gd", vim.lsp.buf.definition, { silent = true })
-          vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { silent = true })
-          vim.keymap.set("n", "gr", vim.lsp.buf.references, { silent = true })
-          vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, { silent = true })
-          vim.keymap.set("n", "<leader>ac", vim.lsp.buf.code_action, { silent = true })
-          vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { silent = true })
-          -- Use conform for formatting
-          -- vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format, { silent = true })
+          local opts = { buffer = ev.buf, silent = true }
+
+          vim.keymap.set("n", "<leader>ac", vim.lsp.buf.code_action, opts)
+          vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+          vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+          vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+          vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+          vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, opts)
 
           local client = vim.lsp.get_client_by_id(ev.data.client_id)
+          if not client then
+            return
+          end
+
           if client.name == "ts_ls" then
-            -- Disable tsserver formatting because prettier is used
+            -- formatting は conform.nvim に寄せる
             client.server_capabilities.documentFormattingProvider = false
             client.server_capabilities.documentRangeFormattingProvider = false
 
@@ -103,50 +58,87 @@ return {
               client:exec_cmd({
                 command = "_typescript.organizeImports",
                 arguments = { vim.api.nvim_buf_get_name(ev.buf) },
-                { bufnr = ev.buf },
-              })
+              }, { bufnr = ev.buf })
             end, {})
-            vim.api.nvim_buf_create_user_command(ev.buf, "RenameFile", function()
-              local source_file, target_file
 
-              vim.ui.input({
-                prompt = "Source : ",
-                completion = "file",
-                default = vim.api.nvim_buf_get_name(ev.buf),
-              }, function(input)
-                source_file = input
-              end)
+            vim.api.nvim_buf_create_user_command(ev.buf, "RenameFile", function()
+              local source_file = vim.api.nvim_buf_get_name(ev.buf)
+
               vim.ui.input({
                 prompt = "Target : ",
                 completion = "file",
                 default = source_file,
-              }, function(input)
-                target_file = input
-              end)
+              }, function(target_file)
+                if not target_file or target_file == "" or target_file == source_file then
+                  return
+                end
 
-              vim.lsp.util.rename(source_file, target_file)
-              client:exec_cmd({
-                command = "_typescript.applyRenameFile",
-                arguments = {
-                  {
-                    sourceUri = source_file,
-                    targetUri = target_file,
+                vim.lsp.util.rename(source_file, target_file)
+
+                client:exec_cmd({
+                  command = "_typescript.applyRenameFile",
+                  arguments = {
+                    {
+                      sourceUri = vim.uri_from_fname(source_file),
+                      targetUri = vim.uri_from_fname(target_file),
+                    },
                   },
-                },
-                { bufnr = ev.buf },
-              })
+                }, { bufnr = ev.buf })
+              end)
             end, {})
           end
         end,
       })
     end,
   },
+
+  -- Completion
+  {
+    "saghen/blink.cmp",
+    dependencies = {
+      "rafamadriz/friendly-snippets",
+    },
+    version = "1.*",
+    opts = {
+      keymap = {
+        preset = "default",
+      },
+
+      appearance = {
+        nerd_font_variant = "mono",
+      },
+
+      completion = {
+        documentation = {
+          auto_show = false,
+        },
+        menu = {
+          auto_show = true,
+        },
+      },
+
+      sources = {
+        default = { "lsp", "path", "snippets", "buffer" },
+      },
+
+      snippets = {
+        preset = "default",
+      },
+
+      fuzzy = {
+        implementation = "prefer_rust_with_warning",
+      },
+    },
+    opts_extend = { "sources.default" },
+  },
+
   -- Pair input
   {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
     config = true,
   },
+
   -- Copilot
   {
     "zbirenbaum/copilot.lua",
@@ -156,61 +148,51 @@ return {
       require("copilot").setup({})
     end,
   },
+
   {
     "CopilotC-Nvim/CopilotChat.nvim",
     dependencies = {
       { "github/copilot.vim" },
-      { "nvim-lua/plenary.nvim", branch = "master" }, -- for curl, log and async functions
+      { "nvim-lua/plenary.nvim", branch = "master" },
     },
-    build = "make tiktoken", -- Only on MacOS or Linux
-    opts = {
-      -- See Configuration section for options
-    },
-    -- See Commands section for default commands if you want to lazy load on them
+    build = "make tiktoken",
+    opts = {},
   },
+
   -- Toggle comments
   {
     "numToStr/Comment.nvim",
-    opts = {
-      -- add any options here
-    },
+    opts = {},
   },
-  -- Snipet
-  {
-    "L3MON4D3/LuaSnip",
-    version = "2.*",
-    build = "make install_jsregexp",
-  },
+
   -- Lint & Format
   {
     "stevearc/conform.nvim",
     opts = {},
     config = function()
       local js_fmt = { "prettierd", "prettier", stop_after_first = true }
+
       require("conform").setup({
         formatters_by_ft = {
           lua = { "stylua" },
-          -- Conform will run multiple formatters sequentially
           python = { "isort", "black" },
-          -- You can customize some of the format options for the filetype (:help conform.format)
           rust = { "rustfmt", lsp_format = "fallback" },
-          -- Conform will run the first available formatter
           javascript = js_fmt,
           typescript = js_fmt,
           javascriptreact = js_fmt,
           typescriptreact = js_fmt,
         },
         format_on_save = {
-          -- These options will be passed to conform.format()
           timeout_ms = 500,
           lsp_format = "fallback",
         },
       })
-      -- Format the selected range
+
       vim.keymap.set({ "n", "x" }, "<leader>fm", function()
         require("conform").format({ async = true })
-      end)
+      end, { silent = true })
     end,
   },
+
   "mfussenegger/nvim-jdtls",
 }
