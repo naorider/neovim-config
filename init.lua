@@ -10,8 +10,6 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
 vim.o.number = true
-vim.cmd.filetype("plugin indent on")
-vim.cmd.syntax("enable")
 
 -- Tab indent
 vim.o.shiftwidth = 2
