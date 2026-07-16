@@ -79,7 +79,7 @@ vim.keymap.set({ "n", "v" }, ";", ":")
 
 -- Exit terminal mode by ESC key
 vim.keymap.set("t", "<ESC>", function()
-  return vim.g.filetype == "fzf" and "<ESC>" or "<C-\\><C-n>"
+  return vim.bo.filetype == "fzf" and "<ESC>" or "<C-\\><C-n>"
 end, { expr = true, silent = true })
 
 -- Quickfix
