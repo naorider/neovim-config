@@ -13,7 +13,6 @@ return {
       vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
       vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
     end,
-    cond = not IsVSCode(),
   },
   {
     "nvim-telescope/telescope-fzf-native.nvim",
@@ -21,7 +20,6 @@ return {
     init = function()
       require("telescope").load_extension("fzf")
     end,
-    cond = not IsVSCode(),
   },
   {
     "nvim-telescope/telescope-ui-select.nvim",

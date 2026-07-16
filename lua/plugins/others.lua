@@ -1,8 +1,8 @@
 return {
   -- Swap windows by <Leader>ww
-  { "wesQ3/vim-windowswap", cond = not IsVSCode() },
+  { "wesQ3/vim-windowswap" },
   -- Fonts
-  { "nvim-tree/nvim-web-devicons", cond = not IsVSCode() },
+  { "nvim-tree/nvim-web-devicons" },
   -- Diff blocks
   "adie/BlockDiff",
   -- Visualize indent
@@ -10,7 +10,6 @@ return {
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
     opts = {},
-    cond = not IsVSCode(),
   },
   -- Status line
   {
