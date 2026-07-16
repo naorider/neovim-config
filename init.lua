@@ -115,18 +115,6 @@ vim.api.nvim_create_autocmd("TermOpen", {
   command = "setlocal nonumber signcolumn=no",
 })
 
--- Format on save
--- https://github.com/neovim/nvim-lspconfig/issues/1792#issuecomment-1352782205
-vim.g.format_on_save = 1
-vim.api.nvim_create_autocmd("BufWritePre", {
-  group = vim.api.nvim_create_augroup("FormatOnSave", {}),
-  callback = function()
-    if vim.g.format_on_save == 1 then
-      vim.lsp.buf.format({ async = false })
-    end
-  end,
-})
-
 -- }}}
 
 require("config.lazy")
