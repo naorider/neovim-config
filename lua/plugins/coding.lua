@@ -4,6 +4,7 @@ return {
     "neovim/nvim-lspconfig",
     dependencies = {
       "saghen/blink.cmp",
+      "b0o/schemastore.nvim",
     },
     config = function()
       local capabilities = require("blink.cmp").get_lsp_capabilities()
@@ -26,10 +27,20 @@ return {
         -- ts_ls 固有設定が必要になったらここに書く
       })
 
+      vim.lsp.config("jsonls", {
+        settings = {
+          json = {
+            schemas = require("schemastore").json.schemas(),
+            validate = { enable = true },
+          },
+        },
+      })
+
       vim.lsp.enable({
         "lua_ls",
         "ts_ls",
         "eslint",
+        "jsonls",
       })
 
       vim.api.nvim_create_autocmd("LspAttach", {
