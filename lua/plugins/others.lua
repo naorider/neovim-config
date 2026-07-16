@@ -45,12 +45,6 @@ return {
   --   end
   -- },
   { "anuvyklack/keymap-amend.nvim" },
-  -- Preview folding by pressing 'h'
-  {
-    "anuvyklack/fold-preview.nvim",
-    dependencies = { "anuvyklack/keymap-amend.nvim" },
-    config = true,
-  },
   -- Colorlize color code (e.g #00BBCC)
   {
     "brenoprata10/nvim-highlight-colors",
