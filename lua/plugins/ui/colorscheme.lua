@@ -1,5 +1,4 @@
 return {
-  { "morhetz/gruvbox" },
   {
     "folke/tokyonight.nvim",
     lazy = false,
