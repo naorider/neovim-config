@@ -1,4 +1,5 @@
 local M = {}
+local servers = require("config.lsp.servers")
 
 function M.setup()
   vim.lsp.config("*", {
@@ -9,12 +10,7 @@ function M.setup()
   require("config.lsp.servers.typescript").setup()
   require("config.lsp.servers.json").setup()
 
-  vim.lsp.enable({
-    "lua_ls",
-    "ts_ls",
-    "eslint",
-    "jsonls",
-  })
+  vim.lsp.enable(servers.enabled)
 
   require("config.lsp.keymaps").setup()
 end
