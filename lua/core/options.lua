@@ -40,8 +40,10 @@ vim.o.listchars = "tab:» ,eol:«,trail:-"
 vim.o.wildmode = "longest,list,full"
 
 -- Undo
+local undodir = vim.fn.stdpath("state") .. "/undo"
+vim.fn.mkdir(undodir, "p")
 vim.o.undofile = true
-vim.o.undodir = vim.env.HOME .. "/.neovim/undo"
+vim.o.undodir = undodir
 
 -- Enable mouse controll in all mode
 vim.o.mouse = "a"
