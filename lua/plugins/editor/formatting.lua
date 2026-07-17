@@ -15,10 +15,7 @@ return {
           javascriptreact = js_fmt,
           typescriptreact = js_fmt,
         },
-        format_on_save = {
-          timeout_ms = 500,
-          lsp_format = "fallback",
-        },
+        format_on_save = { timeout_ms = 500, lsp_format = "fallback" },
       })
 
       vim.keymap.set({ "n", "x" }, "<leader>fm", function()
