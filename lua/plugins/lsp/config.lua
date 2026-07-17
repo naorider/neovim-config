@@ -1,5 +1,4 @@
 return {
-  -- LSP
   {
     "neovim/nvim-lspconfig",
     dependencies = {
@@ -23,9 +22,7 @@ return {
         },
       })
 
-      vim.lsp.config("ts_ls", {
-        -- ts_ls 固有設定が必要になったらここに書く
-      })
+      vim.lsp.config("ts_ls", {})
 
       vim.lsp.config("jsonls", {
         settings = {
@@ -61,7 +58,6 @@ return {
           end
 
           if client.name == "ts_ls" then
-            -- formatting は conform.nvim に寄せる
             client.server_capabilities.documentFormattingProvider = false
             client.server_capabilities.documentRangeFormattingProvider = false
 
@@ -102,107 +98,4 @@ return {
       })
     end,
   },
-
-  -- Completion
-  {
-    "saghen/blink.cmp",
-    dependencies = {
-      "rafamadriz/friendly-snippets",
-    },
-    version = "1.*",
-    opts = {
-      keymap = {
-        preset = "default",
-      },
-
-      appearance = {
-        nerd_font_variant = "mono",
-      },
-
-      completion = {
-        documentation = {
-          auto_show = false,
-        },
-        menu = {
-          auto_show = true,
-        },
-      },
-
-      sources = {
-        default = { "lsp", "path", "snippets", "buffer" },
-      },
-
-      snippets = {
-        preset = "default",
-      },
-
-      fuzzy = {
-        implementation = "prefer_rust_with_warning",
-      },
-    },
-    opts_extend = { "sources.default" },
-  },
-
-  -- Pair input
-  {
-    "windwp/nvim-autopairs",
-    event = "InsertEnter",
-    config = true,
-  },
-
-  -- Copilot
-  {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
-    config = function()
-      require("copilot").setup({})
-    end,
-  },
-
-  {
-    "CopilotC-Nvim/CopilotChat.nvim",
-    dependencies = {
-      { "nvim-lua/plenary.nvim", branch = "master" },
-    },
-    build = "make tiktoken",
-    opts = {},
-  },
-
-  -- Toggle comments
-  {
-    "numToStr/Comment.nvim",
-    opts = {},
-  },
-
-  -- Lint & Format
-  {
-    "stevearc/conform.nvim",
-    opts = {},
-    config = function()
-      local js_fmt = { "prettierd", "prettier", stop_after_first = true }
-
-      require("conform").setup({
-        formatters_by_ft = {
-          lua = { "stylua" },
-          python = { "isort", "black" },
-          rust = { "rustfmt", lsp_format = "fallback" },
-          javascript = js_fmt,
-          typescript = js_fmt,
-          javascriptreact = js_fmt,
-          typescriptreact = js_fmt,
-        },
-        format_on_save = {
-          timeout_ms = 500,
-          lsp_format = "fallback",
-        },
-      })
-
-      vim.keymap.set({ "n", "x" }, "<leader>fm", function()
-        require("conform").format({ async = true })
-      end, { silent = true })
-    end,
-  },
-
-  "mfussenegger/nvim-jdtls",
 }
