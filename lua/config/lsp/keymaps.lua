@@ -6,7 +6,7 @@ function M.setup()
   vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
     callback = function(ev)
-      local opts = { buffer = ev.buf, silent = true }
+      local opts = { buf = ev.buf, silent = true }
 
       vim.keymap.set("n", "<leader>ac", vim.lsp.buf.code_action, opts)
       vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)

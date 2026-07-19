@@ -26,6 +26,10 @@ vim.keymap.set("n", "qt", function()
 end)
 
 -- Diagnostics
-vim.keymap.set("n", "[g", vim.diagnostic.goto_prev)
-vim.keymap.set("n", "]g", vim.diagnostic.goto_next)
+vim.keymap.set("n", "[g", function()
+  vim.diagnostic.jump({ count = -1 })
+end)
+vim.keymap.set("n", "]g", function()
+  vim.diagnostic.jump({ count = 1 })
+end)
 vim.api.nvim_create_user_command("DiagSetLocList", vim.diagnostic.setloclist, {})
