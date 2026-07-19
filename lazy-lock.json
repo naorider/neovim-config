@@ -1,6 +1,5 @@
 {
   "BlockDiff": { "branch": "master", "commit": "0f0988e219fd41fdac351a58a77788d9af21ecd3" },
-  "Comment.nvim": { "branch": "master", "commit": "e30b7f2008e52442154b66f7c519bfd2f1e32acb" },
   "CopilotChat.nvim": { "branch": "main", "commit": "f0c2a23ab79dc295f5e0eef0d8b587a39020c852" },
   "blink.cmp": { "branch": "main", "commit": "78336bc89ee5365633bcf754d93df01678b5c08f" },
   "committia.vim": { "branch": "master", "commit": "c8c0f255e8090ed90dd9d5dd2e8672994f8e3671" },
@@ -10,7 +9,6 @@
   "friendly-snippets": { "branch": "main", "commit": "6cd7280adead7f586db6fccbd15d2cac7e2188b9" },
   "gitsigns.nvim": { "branch": "main", "commit": "31d6fb2d618bca1482b9f274751ead5f03461408" },
   "indent-blankline.nvim": { "branch": "master", "commit": "d28a3f70721c79e3c5f6693057ae929f3d9c0a03" },
-  "keymap-amend.nvim": { "branch": "master", "commit": "b8bf9d820878d5497fdd11d6de55dea82872d98e" },
   "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
   "lualine.nvim": { "branch": "master", "commit": "221ce6b2d999187044529f49da6554a92f740a96" },
   "mason-lspconfig.nvim": { "branch": "main", "commit": "a4068c3ebd4cb335b25239e5ea35c22ee6007962" },

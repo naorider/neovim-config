@@ -14,10 +14,6 @@ return {
   "tpope/vim-abolish",
   "matze/vim-move",
   {
-    "numToStr/Comment.nvim",
-    opts = {},
-  },
-  {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
     config = true,
